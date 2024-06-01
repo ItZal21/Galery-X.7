@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-default h-screen overflow-hidden flex relative">
+    <!-- Tombol Garis 3 di luar header -->
+    <button class="open-btn text-white text-2xl fixed top-4 left-4 focus:outline-none z-30" onclick="toggleSidebar()">☰</button>
+    <!-- Header -->
+    <header class="w-full p-4 fixed top-0 left-0 bg-gray-800 bg-opacity-75 z-20 flex items-center justify-center">
+        <h1 class="text-2xl text-center text-white">Memory of x.7</h1>
+    </header>
+    <!-- Overlay untuk menutup Sidebar -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden" onclick="closeSidebar()"></div>
+    <!-- Sidebar -->
+    <div id="sidebar" class="absolute inset-y-0 left-0 w-64 bg-gray-700 p-4 shadow-lg transform -translate-x-full transition-transform duration-300 z-30 flex flex-col">
+        <button class="close-btn text-white text-2xl ml-auto focus:outline-none bg-transparent" onclick="toggleSidebar()">×</button>
+        <h2 class="mt-12 text-lg">Kategori</h2>
+        <ul class="mt-4 space-y-2">
+            <!-- List Kategori -->
+            <li class="cursor-pointer hover:bg-gray-600 p-2 rounded" onclick="filterCategory('all')">Semua</li>
+            <li class="cursor-pointer hover:bg-gray-600 p-2 rounded" onclick="filterCategory('bareng')">Foto Bareng</li>
+            <li class="cursor-pointer hover:bg-gray-600 p-2 rounded" onclick="filterCategory('laki')">Foto Laki-Laki</li>
+            <li class="cursor-pointer hover:bg-gray-600 p-2 rounded" onclick="filterCategory('perempuan')">Foto Perempuan</li>
+        </ul>
+        <!-- Kotak Pencarian -->
+        <div id="search-container" class="hidden mt-4 flex">
+            <input type="text" id="search" placeholder="Cari foto..." class="flex-grow p-2 rounded-l bg-gray-600 focus:outline-none" onkeyup="searchPhotos()">
+            <button class="p-2 bg-blue-600 rounded-r hover:bg-blue-500 focus:outline-none" onclick="searchPhotos(); closeSidebar()">Cari</button>
+        </div>
+        <!-- Pilihan Tema -->
+        <h2 class="mt-4 text-lg">Tema</h2>
+        <div class="flex space-x-2 mt-4">
+            <button class="theme-icon-default w-8 h-8 rounded-full bg-gray-800" onclick="changeTheme('default')"></button>
+            <button class="theme-icon-pink w-8 h-8 rounded-full bg-[#FF9EAA]" onclick="changeTheme('pink')"></button>
+            <button class="theme-icon-purple w-8 h-8 rounded-full bg-[#7469B6]" onclick="changeTheme('purple')"></button>
+        </div>
+    </div>
+    <!-- Content -->
+    <div id="content" class="flex-grow p-4 transition-all duration-300 mt-16 ml-0 overflow-y-auto gallery-container">
+        <div class="photo-section">
+            <h2 class="text-center text-2xl mt-8">Foto Awal</h2>
+            <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                <!-- Tempat untuk menambahkan foto awal -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="awal-1" onclick="openPhoto('images/bareng/awal-1.jpg')">
+                    <img src="images/bareng/awal-1.jpg" alt="Foto Awal 1" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="awal-2" onclick="openPhoto('images/bareng/awal-2.jpg')">
+                    <img src="images/bareng/awal-2.jpg" alt="Foto Awal 2" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="awal-3" onclick="openPhoto('images/bareng/awal-3.jpg')">
+                    <img src="images/bareng/awal-3.jpg" alt="Foto Awal 3" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="awal-4" onclick="openPhoto('images/bareng/awal-4.jpg')">
+                    <img src="images/bareng/awal-4.jpg" alt="Foto Awal 4" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="awal-5" onclick="openPhoto('images/bareng/awal-5.jpg')">
+                    <img src="images/bareng/awal-5.jpg" alt="Foto Awal 5" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="awal-6" onclick="openPhoto('images/bareng/awal-6.jpg')">
+                    <img src="images/bareng/awal-6.jpg" alt="Foto Awal 6" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="awal-7" onclick="openPhoto('images/bareng/awal-7.jpg')">
+                    <img src="images/cewe/awal-7.jpg" alt="Foto Awal 7" class="w-48 h-48 object-cover lazyload" loading="lazy" >
+                </div>
+                <!-- Tambahkan lebih banyak foto di sini -->
+            </div>
+        </div>
+        <div class="photo-section">
+            <h2 class="text-center text-2xl mt-8">Aniversary Bu Nine</h2>
+            <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                <!-- Tempat untuk menambahkan foto aniversary -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-1" onclick="openPhoto('images/bareng/aniv-1.jpg')">
+                    <img src="images/bareng/aniv-1.jpg" alt="Aniversary 1" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-2" onclick="openPhoto('images/bareng/aniv-2.jpg')">
+                    <img src="images/bareng/aniv-2.jpg" alt="Aniversary 2" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-3" onclick="openPhoto('images/bareng/aniv-3.jpg')">
+                    <img src="images/bareng/aniv-3.jpg" alt="Aniversary 3" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-4" onclick="openPhoto('images/bareng/aniv-4.jpg')">
+                    <img src="images/bareng/aniv-4.jpg" alt="Aniversary 4" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-5" onclick="openPhoto('images/bareng/aniv-5.jpg')">
+                    <img src="images/bareng/aniv-5.jpg" alt="Aniversary 5" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-6" onclick="openPhoto('images/bareng/aniv-6.jpg')">
+                    <img src="images/bareng/aniv-6.jpg" alt="Aniversary 6" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="aniv-7" onclick="openPhoto('images/bareng/aniv-7.jpg')">
+                    <img src="images/bareng/aniv-7.jpg" alt="Aniversary 7" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- Tambahkan lebih banyak foto di sini -->
+            </div>
+        </div>
+        <div class="photo-section">
+            <h2 class="text-center text-2xl mt-8">Foto Gabungan P5</h2>
+            <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                <!-- Tempat untuk menambahkan foto gabungan -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-1" onclick="openPhoto('images/bareng/p5-1.jpg')">
+                    <img src="images/bareng/p5-1.jpg" alt="Gabungan 1" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-2" onclick="openPhoto('images/bareng/p5-2.jpg')">
+                    <img src="images/bareng/p5-2.jpg" alt="Gabungan 2" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-3" onclick="openPhoto('images/bareng/p5-3.jpg')">
+                    <img src="images/bareng/p5-3.jpg" alt="Gabungan 3" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-4" onclick="openPhoto('images/bareng/p5-4.jpg')">
+                    <img src="images/bareng/p5-4.jpg" alt="Gabungan 4" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-5" onclick="openPhoto('images/bareng/p5-5.jpg')">
+                    <img src="images/bareng/p5-5.jpg" alt="Gabungan 5" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-6" onclick="openPhoto('images/bareng/p5-6.jpg')">
+                    <img src="images/bareng/p5-6.jpg" alt="Gabungan 6" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-7" onclick="openPhoto('images/bareng/p5-7.jpg')">
+                    <img src="images/bareng/p5-7.jpg" alt="Gabungan 7" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-8" onclick="openPhoto('images/bareng/p5-8.jpg')">
+                    <img src="images/bareng/p5-8.jpg" alt="Gabungan 8" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-9" onclick="openPhoto('images/bareng/p5-9.jpg')">
+                    <img src="images/bareng/p5-9.jpg" alt="Gabungan 9" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-10" onclick="openPhoto('images/bareng/p5-10.jpg')">
+                    <img src="images/bareng/p5-10.jpg" alt="Gabungan 10" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-11" onclick="openPhoto('images/bareng/p5-11.jpg')">
+                    <img src="images/bareng/p5-11.jpg" alt="Gabungan 11" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-12" onclick="openPhoto('images/bareng/p5-12.jpg')">
+                    <img src="images/bareng/p5-12.jpg" alt="Gabungan 12" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-13" onclick="openPhoto('images/bareng/p5-13.jpg')">
+                    <img src="images/bareng/p5-13.jpg" alt="Gabungan 13" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-14" onclick="openPhoto('images/bareng/p5-14.jpg')">
+                    <img src="images/bareng/p5-14.jpg" alt="Gabungan 14" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-15" onclick="openPhoto('images/bareng/p5-15.jpg')">
+                    <img src="images/bareng/p5-15.jpg" alt="Gabungan 15" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-16" onclick="openPhoto('images/bareng/p5-16.jpg')">
+                    <img src="images/bareng/p5-16.jpg" alt="Gabungan 16" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-17" onclick="openPhoto('images/bareng/p5-17.jpg')">
+                    <img src="images/bareng/p5-17.jpg" alt="Gabungan 17" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-18" onclick="openPhoto('images/bareng/p5-18.jpg')">
+                    <img src="images/bareng/p5-18.jpg" alt="Gabungan 18" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-19" onclick="openPhoto('images/bareng/p5-19.jpg')">
+                    <img src="images/bareng/p5-19.jpg" alt="Gabungan 19" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-20" onclick="openPhoto('images/bareng/p5-20.jpg')">
+                    <img src="images/bareng/p5-20.jpg" alt="Gabungan 20" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-21" onclick="openPhoto('images/bareng/p5-21.jpg')">
+                    <img src="images/bareng/p5-21.jpg" alt="Gabungan 21" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-22" onclick="openPhoto('images/bareng/p5-22.jpg')">
+                    <img src="images/bareng/p5-22.jpg" alt="Gabungan 22" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- laki-laki -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-14" onclick="openPhoto('images/laki/p5-23.jpg')">
+                    <img src="images/laki/p5-23.jpg" alt="Gabungan 23" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-15" onclick="openPhoto('images/laki/p5-24.jpg')">
+                    <img src="images/laki/p5-24.jpg" alt="Gabungan 24" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-16" onclick="openPhoto('images/laki/p5-25.jpg')">
+                    <img src="images/laki/p5-25.jpg" alt="Gabungan 25" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-17" onclick="openPhoto('images/laki/p5-26.jpg')">
+                    <img src="images/laki/p5-26.jpg" alt="Gabungan 26" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-18" onclick="openPhoto('images/laki/p5-27.jpg')">
+                    <img src="images/laki/p5-27.jpg" alt="Gabungan 27" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-19" onclick="openPhoto('images/laki/p5-28.jpg')">
+                    <img src="images/laki/p5-28.jpg" alt="Gabungan 28" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-20" onclick="openPhoto('images/laki/p5-29.jpg')">
+                    <img src="images/laki/p5-29.jpg" alt="Gabungan 29" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-21" onclick="openPhoto('images/laki/p5-30.jpg')">
+                    <img src="images/laki/p5-30.jpg" alt="Gabungan 30" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="laki" data-name="laki-22" onclick="openPhoto('images/laki/p5-31.jpg')">
+                    <img src="images/laki/p5-31.jpg" alt="Gabungan 31" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- Perempuan -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-1" onclick="openPhoto('images/cewe/p5-32.jpg')">
+                    <img src="images/cewe/p5-32.jpg" alt="Gabungan 32" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-2" onclick="openPhoto('images/cewe/p5-33.jpg')">
+                    <img src="images/cewe/p5-33.jpg" alt="Gabungan 33" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-3" onclick="openPhoto('images/cewe/p5-34.jpg')">
+                    <img src="images/cewe/p5-34.jpg" alt="Gabungan 34" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-4" onclick="openPhoto('images/cewe/p5-35.jpg')">
+                    <img src="images/cewe/p5-35.jpg" alt="Gabungan 35" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-5" onclick="openPhoto('images/cewe/p5-36.jpg')">
+                    <img src="images/cewe/p5-36.jpg" alt="Gabungan 36" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-6" onclick="openPhoto('images/cewe/p5-37.jpg')">
+                    <img src="images/cewe/p5-37.jpg" alt="Gabungan 37" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-7" onclick="openPhoto('images/cewe/p5-38.jpg')">
+                    <img src="images/cewe/p5-38.jpg" alt="Gabungan 38" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-8" onclick="openPhoto('images/cewe/p5-39.jpg')">
+                    <img src="images/cewe/p5-39.jpg" alt="Gabungan 39" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-9" onclick="openPhoto('images/cewe/p5-40.jpg')">
+                    <img src="images/cewe/p5-40.jpg" alt="Gabungan 40" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-10" onclick="openPhoto('images/cewe/p5-41.jpg')">
+                    <img src="images/cewe/p5-41.jpg" alt="Gabungan 41" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-11" onclick="openPhoto('images/cewe/p5-42.jpg')">
+                    <img src="images/cewe/p5-42.jpg" alt="Gabungan 42" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-12" onclick="openPhoto('images/cewe/p5-43.jpg')">
+                    <img src="images/cewe/p5-43.jpg" alt="Gabungan 43" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-13" onclick="openPhoto('images/cewe/p5-44.jpg')">
+                    <img src="images/cewe/p5-44.jpg" alt="Gabungan 44" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-14" onclick="openPhoto('images/cewe/p5-45.jpg')">
+                    <img src="images/cewe/p5-45.jpg" alt="Gabungan 45" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-15" onclick="openPhoto('images/cewe/p5-46.jpg')">
+                    <img src="images/cewe/p5-46.jpg" alt="Gabungan 46" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-16" onclick="openPhoto('images/cewe/p5-47.jpg')">
+                    <img src="images/cewe/p5-47.jpg" alt="Gabungan 47" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-17" onclick="openPhoto('images/cewe/p5-48.jpg')">
+                    <img src="images/cewe/p5-48.jpg" alt="Gabungan 48" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-18" onclick="openPhoto('images/cewe/p5-49.jpg')">
+                    <img src="images/cewe/p5-49.jpg" alt="Gabungan 49" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-19" onclick="openPhoto('images/cewe/p5-50.jpg')">
+                    <img src="images/cewe/p5-50.jpg" alt="Gabungan 50" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-20" onclick="openPhoto('images/cewe/p5-51.jpg')">
+                    <img src="images/cewe/p5-51.jpg" alt="Gabungan 51" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-21" onclick="openPhoto('images/cewe/p5-52.jpg')">
+                    <img src="images/cewe/p5-52.jpg" alt="Gabungan 52" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-22" onclick="openPhoto('images/cewe/p5-53.jpg')">
+                    <img src="images/cewe/p5-53.jpg" alt="Gabungan 53" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-19" onclick="openPhoto('images/cewe/p5-54.jpg')">
+                    <img src="images/cewe/p5-54.jpg" alt="Gabungan 54" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-20" onclick="openPhoto('images/cewe/p5-55.jpg')">
+                    <img src="images/cewe/p5-55.jpg" alt="Gabungan 55" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-21" onclick="openPhoto('images/cewe/p5-56.jpg')">
+                    <img src="images/cewe/p5-56.jpg" alt="Gabungan 56" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-22" onclick="openPhoto('images/cewe/p5-57.jpg')">
+                    <img src="images/cewe/p5-57.jpg" alt="Gabungan 57" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+
+                <!-- Tambahkan lebih banyak foto di sini -->
+            </div>
+        </div>
+        <div class="photo-section">
+            <h2 class="text-center text-2xl mt-8">Foto Random Baju Bebas</h2>
+            <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                <!-- Tempat untuk menambahkan foto random -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-1" onclick="openPhoto('images/cewe/random-1.jpg')">
+                    <img src="images/cewe/random-1.jpg" alt="Gabungan 1" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-2" onclick="openPhoto('images/cewe/random-2.jpg')">
+                    <img src="images/cewe/random-2.jpg" alt="Gabungan 2" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-3" onclick="openPhoto('images/cewe/random-3.jpg')">
+                    <img src="images/cewe/random-3.jpg" alt="Gabungan 3" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-4" onclick="openPhoto('images/cewe/random-4.jpg')">
+                    <img src="images/cewe/random-4.jpg" alt="Gabungan 4" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-5" onclick="openPhoto('images/cewe/random-5.jpg')">
+                    <img src="images/cewe/random-5.jpg" alt="Gabungan 5" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-6" onclick="openPhoto('images/cewe/random-6.jpg')">
+                    <img src="images/cewe/random-6.jpg" alt="Gabungan 6" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-7" onclick="openPhoto('images/cewe/random-7.jpg')">
+                    <img src="images/cewe/random-7.jpg" alt="Gabungan 7" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-8" onclick="openPhoto('images/cewe/random-8.jpg')">
+                    <img src="images/cewe/random-8.jpg" alt="Gabungan 8" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-9" onclick="openPhoto('images/cewe/random-9.jpg')">
+                    <img src="images/cewe/random-9.jpg" alt="Gabungan 9" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-10" onclick="openPhoto('images/cewe/random-10.jpg')">
+                    <img src="images/cewe/random-10.jpg" alt="Gabungan 10" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-11" onclick="openPhoto('images/cewe/random-11.jpg')">
+                    <img src="images/cewe/random-11.jpg" alt="Gabungan 11" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-12" onclick="openPhoto('images/cewe/random-12.jpg')">
+                    <img src="images/cewe/random-12.jpg" alt="Gabungan 12" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-13" onclick="openPhoto('images/cewe/random-13.jpg')">
+                    <img src="images/cewe/random-13.jpg" alt="Gabungan 13" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-14" onclick="openPhoto('images/cewe/random-14.jpg')">
+                    <img src="images/cewe/random-14.jpg" alt="Gabungan 14" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-15" onclick="openPhoto('images/cewe/random-15.jpg')">
+                    <img src="images/cewe/random-15.jpg" alt="Gabungan 15" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-16" onclick="openPhoto('images/cewe/random-16.jpg')">
+                    <img src="images/cewe/random-16.jpg" alt="Gabungan 16" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-17" onclick="openPhoto('images/cewe/random-17.jpg')">
+                    <img src="images/cewe/random-17.jpg" alt="Gabungan 17" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-18" onclick="openPhoto('images/cewe/random-18.jpg')">
+                    <img src="images/cewe/random-18.jpg" alt="Gabungan 18" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-19" onclick="openPhoto('images/cewe/random-19.jpg')">
+                    <img src="images/cewe/random-19.jpg" alt="Gabungan 19" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-20" onclick="openPhoto('images/cewe/random-20.jpg')">
+                    <img src="images/cewe/random-20.jpg" alt="Gabungan 20" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-21" onclick="openPhoto('images/cewe/random-21.jpg')">
+                    <img src="images/cewe/random-21.jpg" alt="Gabungan 21" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-22" onclick="openPhoto('images/cewe/random-22.jpg')">
+                    <img src="images/cewe/random-22.jpg" alt="Gabungan 22" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- laki-laki -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-14" onclick="openPhoto('images/cewe/random-23.jpg')">
+                    <img src="images/cewe/random-23.jpg" alt="Gabungan 23" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-15" onclick="openPhoto('images/cewe/random-24.jpg')">
+                    <img src="images/cewe/random-24.jpg" alt="Gabungan 24" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-16" onclick="openPhoto('images/cewe/random-25.jpg')">
+                    <img src="images/cewe/random-25.jpg" alt="Gabungan 25" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-17" onclick="openPhoto('images/cewe/random-26.jpg')">
+                    <img src="images/cewe/random-26.jpg" alt="Gabungan 26" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-18" onclick="openPhoto('images/cewe/random-27.jpg')">
+                    <img src="images/cewe/random-27.jpg" alt="Gabungan 27" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-19" onclick="openPhoto('images/cewe/random-28.jpg')">
+                    <img src="images/cewe/random-28.jpg" alt="Gabungan 28" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-20" onclick="openPhoto('images/cewe/random-29.jpg')">
+                    <img src="images/cewe/random-29.jpg" alt="Gabungan 29" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-21" onclick="openPhoto('images/cewe/random-30.jpg')">
+                    <img src="images/cewe/random-30.jpg" alt="Gabungan 30" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-22" onclick="openPhoto('images/cewe/random-31.jpg')">
+                    <img src="images/cewe/random-31.jpg" alt="Gabungan 31" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- Perempuan -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-1" onclick="openPhoto('images/cewe/random-32.jpg')">
+                    <img src="images/cewe/random-32.jpg" alt="Gabungan 32" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-2" onclick="openPhoto('images/cewe/random-33.jpg')">
+                    <img src="images/cewe/random-33.jpg" alt="Gabungan 33" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-3" onclick="openPhoto('images/cewe/random-34.jpg')">
+                    <img src="images/cewe/random-34.jpg" alt="Gabungan 34" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-4" onclick="openPhoto('images/cewe/random-35.jpg')">
+                    <img src="images/cewe/random-35.jpg" alt="Gabungan 35" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-5" onclick="openPhoto('images/cewe/random-36.jpg')">
+                    <img src="images/cewe/random-36.jpg" alt="Gabungan 36" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-6" onclick="openPhoto('images/cewe/random-37.jpg')">
+                    <img src="images/cewe/random-37.jpg" alt="Gabungan 37" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-7" onclick="openPhoto('images/cewe/random-38.jpg')">
+                    <img src="images/cewe/random-38.jpg" alt="Gabungan 38" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-8" onclick="openPhoto('images/cewe/random-39.jpg')">
+                    <img src="images/cewe/random-39.jpg" alt="Gabungan 39" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- Tambahkan lebih banyak foto di sini -->
+            </div>
+        </div>
+        <div class="photo-section">
+            <h2 class="text-center text-2xl mt-8">Foto Random Baju Khas</h2>
+            <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                <!-- Tempat untuk menambahkan foto random -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="bareng" data-name="perempuan-1" onclick="openPhoto('images/bareng/random-kotak-1.jpg')">
+                    <img src="images/bareng/random-kotak-1.jpg" alt="Gabungan 1" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-2" onclick="openPhoto('images/cewe/random-kotak-2.jpg')">
+                    <img src="images/cewe/random-kotak-2.jpg" alt="Gabungan 2" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-3" onclick="openPhoto('images/cewe/random-kotak-3.jpg')">
+                    <img src="images/cewe/random-kotak-3.jpg" alt="Gabungan 3" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-4" onclick="openPhoto('images/cewe/random-kotak-4.jpg')">
+                    <img src="images/cewe/random-kotak-4.jpg" alt="Gabungan 4" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-5" onclick="openPhoto('images/cewe/random-kotak-5.jpg')">
+                    <img src="images/cewe/random-kotak-5.jpg" alt="Gabungan 5" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-6" onclick="openPhoto('images/cewe/random-kotak-6.jpg')">
+                    <img src="images/cewe/random-kotak-6.jpg" alt="Gabungan 6" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-7" onclick="openPhoto('images/cewe/random-kotak-7.jpg')">
+                    <img src="images/cewe/random-kotak-7.jpg" alt="Gabungan 7" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-8" onclick="openPhoto('images/cewe/random-kotak-8.jpg')">
+                    <img src="images/cewe/random-kotak-8.jpg" alt="Gabungan 8" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-9" onclick="openPhoto('images/cewe/random-kotak-9.jpg')">
+                    <img src="images/cewe/random-kotak-9.jpg" alt="Gabungan 9" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-10" onclick="openPhoto('images/cewe/random-kotak-10.jpg')">
+                    <img src="images/cewe/random-kotak-10.jpg" alt="Gabungan 10" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-11" onclick="openPhoto('images/cewe/random-kotak-11.jpg')">
+                    <img src="images/cewe/random-kotak-11.jpg" alt="Gabungan 11" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-12" onclick="openPhoto('images/cewe/random-kotak-12.jpg')">
+                    <img src="images/cewe/random-kotak-12.jpg" alt="Gabungan 12" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-13" onclick="openPhoto('images/cewe/random-kotak-13.jpg')">
+                    <img src="images/cewe/random-kotak-13.jpg" alt="Gabungan 13" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- Tambahkan lebih banyak foto di sini -->
+            </div>
+        </div>
+        <div class="photo-section">
+            <h2 class="text-center text-2xl mt-8">Foto Random Baju Olahraga</h2>
+            <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                <!-- Tempat untuk menambahkan foto random -->
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-1" onclick="openPhoto('images/bareng/random-olahraga-1.jpg')">
+                    <img src="images/bareng/random-olahraga-1.jpg" alt="Gabungan 1" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="gabungan" data-name="gabungan-2" onclick="openPhoto('images/bareng/random-olahraga-2.jpg')">
+                    <img src="images/bareng/random-olahraga-2.jpg" alt="Gabungan 2" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-3" onclick="openPhoto('images/cewe/random-olahraga-3.jpg')">
+                    <img src="images/cewe/random-olahraga-3.jpg" alt="Gabungan 3" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-4" onclick="openPhoto('images/cewe/random-olahraga-4.jpg')">
+                    <img src="images/cewe/random-olahraga-4.jpg" alt="Gabungan 4" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-5" onclick="openPhoto('images/cewe/random-olahraga-5.jpg')">
+                    <img src="images/cewe/random-olahraga-5.jpg" alt="Gabungan 5" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-6" onclick="openPhoto('images/cewe/random-olahraga-6.jpg')">
+                    <img src="images/cewe/random-olahraga-6.jpg" alt="Gabungan 6" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-7" onclick="openPhoto('images/cewe/random-olahraga-7.jpg')">
+                    <img src="images/cewe/random-olahraga-7.jpg" alt="Gabungan 7" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-8" onclick="openPhoto('images/cewe/random-olahraga-8.jpg')">
+                    <img src="images/cewe/random-olahraga-8.jpg" alt="Gabungan 8" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan data-name="perempuan-9" onclick="openPhoto('images/cewe/random-olahraga-9.jpg')">
+                    <img src="images/cewe/random-olahraga-9.jpg" alt="Gabungan 9" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                </div>
+                <!-- Tambahkan lebih banyak foto di sini -->
+            </div>
+            <div class="photo-section">
+                <h2 class="text-center text-2xl mt-8">Foto Random Baju PutihBiru</h2>
+                <div class="gallery flex space-x-4 mt-4 overflow-x-auto flex-nowrap">
+                    <!-- Tempat untuk menambahkan foto random -->
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-1" onclick="openPhoto('images/cewe/random-putbu-1.jpg')">
+                        <img src="images/cewe/random-putbu-1.jpg" alt="Gabungan 1" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-2" onclick="openPhoto('images/cewe/random-putbu-2.jpg')">
+                        <img src="images/cewe/random-putbu-2.jpg" alt="Gabungan 2" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-3" onclick="openPhoto('images/cewe/random-putbu-3.jpg')">
+                        <img src="images/cewe/random-putbu-3.jpg" alt="Gabungan 3" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-4" onclick="openPhoto('images/cewe/random-putbu-4.jpg')">
+                        <img src="images/cewe/random-putbu-4.jpg" alt="Gabungan 4" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-5" onclick="openPhoto('images/cewe/random-putbu-5.jpg')">
+                        <img src="images/cewe/random-putbu-5.jpg" alt="Gabungan 5" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-6" onclick="openPhoto('images/cewe/random-putbu-6.jpg')">
+                        <img src="images/cewe/random-putbu-6.jpg" alt="Gabungan 6" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-7" onclick="openPhoto('images/cewe/random-putbu-7.jpg')">
+                        <img src="images/cewe/random-putbu-7.jpg" alt="Gabungan 7" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-8" onclick="openPhoto('images/cewe/random-putbu-8.jpg')">
+                        <img src="images/cewe/random-putbu-8.jpg" alt="Gabungan 8" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-9" onclick="openPhoto('images/cewe/random-putbu-9.jpg')">
+                        <img src="images/cewe/random-putbu-9.jpg" alt="Gabungan 9" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-10" onclick="openPhoto('images/cewe/random-putbu-10.jpg')">
+                        <img src="images/cewe/random-putbu-10.jpg" alt="Gabungan 10" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-11" onclick="openPhoto('images/cewe/random-putbu-11.jpg')">
+                        <img src="images/cewe/random-putbu-11.jpg" alt="Gabungan 11" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-12" onclick="openPhoto('images/cewe/random-putbu-12.jpg')">
+                        <img src="images/cewe/random-putbu-12.jpg" alt="Gabungan 12" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-13" onclick="openPhoto('images/cewe/random-putbu-13.jpg')">
+                        <img src="images/cewe/random-putbu-13.jpg" alt="Gabungan 13" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-14" onclick="openPhoto('images/cewe/random-putbu-14.jpg')">
+                        <img src="images/cewe/random-putbu-14.jpg" alt="Gabungan 14" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-15" onclick="openPhoto('images/cewe/random-putbu-15.jpg')">
+                        <img src="images/cewe/random-putbu-15.jpg" alt="Gabungan 15" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-16" onclick="openPhoto('images/cewe/random-putbu-16.jpg')">
+                        <img src="images/cewe/random-putbu-16.jpg" alt="Gabungan 16" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-17" onclick="openPhoto('images/cewe/random-putbu-17.jpg')">
+                        <img src="images/cewe/random-putbu-17.jpg" alt="Gabungan 17" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-18" onclick="openPhoto('images/cewe/random-putbu-18.jpg')">
+                        <img src="images/cewe/random-putbu-18.jpg" alt="Gabungan 18" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-19" onclick="openPhoto('images/cewe/random-putbu-19.jpg')">
+                        <img src="images/cewe/random-putbu-19.jpg" alt="Gabungan 19" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-20" onclick="openPhoto('images/cewe/random-putbu-20.jpg')">
+                        <img src="images/cewe/random-putbu-20.jpg" alt="Gabungan 20" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-21" onclick="openPhoto('images/cewe/random-putbu-21.jpg')">
+                        <img src="images/cewe/random-putbu-21.jpg" alt="Gabungan 21" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-22" onclick="openPhoto('images/cewe/random-putbu-22.jpg')">
+                        <img src="images/cewe/random-putbu-22.jpg" alt="Gabungan 22" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <!-- laki-laki -->
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-14" onclick="openPhoto('images/cewe/random-putbu-23.jpg')">
+                        <img src="images/cewe/random-putbu-23.jpg" alt="Gabungan 23" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-15" onclick="openPhoto('images/cewe/random-putbu-24.jpg')">
+                        <img src="images/cewe/random-putbu-24.jpg" alt="Gabungan 24" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-16" onclick="openPhoto('images/cewe/random-putbu-25.jpg')">
+                        <img src="images/cewe/random-putbu-25.jpg" alt="Gabungan 25" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-17" onclick="openPhoto('images/cewe/random-putbu-26.jpg')">
+                        <img src="images/cewe/random-putbu-26.jpg" alt="Gabungan 26" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <div class="photo cursor-pointer transform transition-all duration-300" data-category="perempuan" data-name="perempuan-18" onclick="openPhoto('images/cewe/random-putbu-27.jpg')">
+                        <img src="images/cewe/random-putbu-27.jpg" alt="Gabungan 27" class="w-48 h-48 object-cover lazyload" loading="lazy">
+                    </div>
+                    <!-- Tambahkan lebih banyak foto di sini -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Lightbox untuk menampilkan foto dalam ukuran penuh -->
+    <div id="lightbox" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-20 p-4">
+        <span class="close text-white text-4xl absolute top-4 right-4 cursor-pointer bg-transparent" onclick="closePhoto(event)">&times;</span>
+        <img id="lightbox-img" class="max-w-full max-h-full">
+    </div>
+
+    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.3.2/lazysizes.min.js" async></script>
+
+</body>
+</html>
